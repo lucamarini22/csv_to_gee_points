@@ -106,7 +106,7 @@ if __name__ == "__main__":
     lat_col_name = 'Lat'
     long_col_name = 'Long'
     csv_file = './csv_file.csv'
-    out_file = './txt_file.txt'
+    out_file = './out_file.txt'
     points_col_name = 'Points_Col_Name'
     num_rows_before_header = 2
     sep = ';'
