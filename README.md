@@ -1,1 +1,1 @@
-![alt text](./res/usage.png)
+![](./res/usage.png)
