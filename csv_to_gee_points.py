@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 
-def generate_fires_point(
+def csv_to_gee_points(
         csv_file: str,
         out_file: str,
         lat_col_name: str,
@@ -31,10 +31,13 @@ def generate_fires_point(
           Defaults to None.
         sep: separator of the csv file. Defaults to ','.
     """
-    df = pd.read_csv(csv_file, sep=sep, decimal=decimal)
-    df.columns = df.iloc[1]
+    df = pd.read_csv(csv_file, sep=sep)
+    df.columns = df.iloc[num_rows_before_header - 1]
     # Drops rows before header
     df = df.iloc[num_rows_before_header:]
+    
+    df[lat_col_name] = _replace_comma_with_dot_in_col(df, lat_col_name)
+    df[long_col_name] = _replace_comma_with_dot_in_col(df, long_col_name)
     
     points_def_col_name = 'points_def'
     
@@ -83,16 +86,38 @@ def _get_second_part_of_def(
         + ']);'
 
 
+def _replace_comma_with_dot_in_col(
+    df: pd.DataFrame, 
+    col_name: str
+) -> pd.Series:
+    """Replaces every comma with a dot in each element of the column col_name
+    of dataframe df.
+
+    Args:
+        df (pd.DataFrame): dataframe containing column col_name.
+        col_name (str): name of the column.
+
+    Returns:
+        pd.Series: column col_name with dots instead of commas in its elements.
+    """
+    return df[col_name].str.replace(',', '.')
+
+
 if __name__ == "__main__":
     lat_col_name = 'Lat'
     long_col_name = 'Long'
-    csv_file = './cvs_file.csv'
-    out_file = './out_file.txt'
+    csv_file = './csv_file.csv'
+    out_file = './txt_file.txt'
+    points_col_name = 'Points_Col_Name'
+    num_rows_before_header = 2
+    sep = ';'
 
-    generate_fires_point(
+    csv_to_gee_points(
         csv_file, 
         out_file, 
         lat_col_name, 
         long_col_name, 
-        points_col_name='Label'
+        points_col_name=points_col_name,
+        sep=sep,
+        num_rows_before_header=num_rows_before_header
     )
