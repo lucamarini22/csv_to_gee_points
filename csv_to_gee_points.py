@@ -43,12 +43,12 @@ def csv_to_gee_points(
     if points_col_name is not None:   
         df[points_def_col_name] = 'var ' \
             + df[points_col_name] \
-                + _get_second_part_of_def(df, long_col_name, lat_col_name)
+                + _get_second_part_of_def(df, lat_col_name, long_col_name)
     else:
         df['index'] = [str(i) for i in np.arange(len(df))]
         df[points_def_col_name] = 'var point_' \
             + df['index'] \
-                + _get_second_part_of_def(df, long_col_name, lat_col_name)
+                + _get_second_part_of_def(df, lat_col_name, long_col_name)
 
     df[points_def_col_name].to_csv(
         out_file, 
