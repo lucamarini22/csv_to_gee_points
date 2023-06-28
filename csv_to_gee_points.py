@@ -11,7 +11,6 @@ def csv_to_gee_points(
         num_rows_before_header: int = 0,
         points_col_name: str = None,
         sep: str = ',',
-        decimal: str = ',',
 ) -> None:
     """Generates a text file with each row corresponding to the definition in 
     Javascript of a point that can be imported in the Code Editor of Google 
